@@ -23,6 +23,7 @@ with sync_playwright() as playwright:
 
     page.wait_for_timeout(2000)
 
+#Визуализация тестового задания
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=False)
     page = browser.new_page()
