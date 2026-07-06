@@ -4,7 +4,7 @@ with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=False)
     page = browser.new_page()
 
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
+    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login", wait_until='networkidle')
 
     # unknown = page.locator('#Unknown')
     # expect(unknown).to_be_visible()
