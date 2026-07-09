@@ -1,6 +1,9 @@
+import pytest
 from playwright.sync_api import sync_playwright, expect
 
 
+@pytest.mark.regression
+@pytest.mark.registration
 def test_successful_registration():
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
@@ -24,7 +27,7 @@ def test_successful_registration():
         context.storage_state(path='browser-state.json')
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=True)
         context = browser.new_context(storage_state='browser-state.json')
         page = context.new_page()
 
