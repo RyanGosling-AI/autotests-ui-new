@@ -1,7 +1,7 @@
 import re
 
 from Components.base_component import BaseComponent
-from Components.Navigation.sidebar_list_item_component import SidebarListItemComponent
+from Components.navigation.sidebar_list_item_component import SidebarListItemComponent
 from playwright.sync_api import Page
 
 
