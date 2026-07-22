@@ -1,14 +1,15 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 from Components.base_component import BaseComponent
+from elements.input import Input
 
 
 class RegistrationFormCompRegistrationFormComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.email = page.get_by_test_id('registration-form-email-input').locator('input')
-        self.username = page.get_by_test_id('registration-form-username-input').locator('input')
-        self.password = page.get_by_test_id('registration-form-password-input').locator('input')
+        self.email = Input(page, 'registration-form-email-input', 'Email')
+        self.username = Input(page,'registration-form-username-input', 'Username')
+        self.password = Input(page,'registration-form-password-input', 'Password')
 
     def fill(self, email: str, username: str, password: str):
         self.email.fill(email)
@@ -16,11 +17,11 @@ class RegistrationFormCompRegistrationFormComponent(BaseComponent):
         self.password.fill(password)
 
     def check_visible(self, email: str, username: str, password: str):
-        expect(self.email).to_be_visible()
-        expect(self.email).to_have_value(email)
+        self.email.check_visible()
+        self.email.check_have_value(email)
 
-        expect(self.username).to_be_visible()
-        expect(self.username).to_have_value(username)
+        self.username.check_visible()
+        self.username.check_have_value(username)
 
-        expect(self.password).to_be_visible()
-        expect(self.password).to_have_value(password)
+        self.password.check_visible()
+        self.password.check_have_value(password)
