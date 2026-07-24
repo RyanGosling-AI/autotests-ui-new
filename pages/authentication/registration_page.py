@@ -4,6 +4,7 @@ from elements.button import Button
 from elements.link import Link
 from pages.base_page import BasePage
 from Components.authentication.registration_form_component import RegistrationFormCompRegistrationFormComponent
+import re
 
 
 class RegistrationPage(BasePage):
@@ -12,15 +13,18 @@ class RegistrationPage(BasePage):
 
         self.registration_form = RegistrationFormCompRegistrationFormComponent(page)
 
+        self.login_link = Link(page,'registration-page-login-link', 'Login')
         self.registration_button = Button(
             page,'registration-page-registration-button', 'Registration button'
         )
         self.login_link = Link(page,'registration-page-login-link', 'Login link')
 
+    def click_login_link(self):
+        self.login_link.click()
+        self.check_current_url(re.compile('.*/#/auth/login'))
+
     def click_registration_button(self):
         self.registration_button.click()
 
-    def click_login_link(self):
-        self.login_link.click()
 
 
