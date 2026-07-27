@@ -1,11 +1,25 @@
 import pytest
+import allure
+from tools.allure.tags import AllureTags
+from tools.allure.epics import AllureEpics
+from tools.allure.stories import AllureStory
+from tools.allure.features import AllureFeature
 from pages.courses.create_course_page import CreateCoursePage
 from pages.courses.courses_list_page import CourseListPage
+from allure_commons.types import Severity
 
 
 @pytest.mark.courses
 @pytest.mark.regression
+@allure.tag(AllureTags.REGISTRATION, AllureTags.COURSES)
+@allure.epic(AllureEpics.LMS)
+@allure.feature(AllureFeature.COURSES)
+@allure.story(AllureStory.COURSES)
+@allure.parent_suite(AllureEpics.LMS)
+@allure.suite(AllureFeature.COURSES)
+@allure.sub_suite(AllureStory.COURSES)
 class TestCourses:
+    @allure.title('Check edit course')
     def test_edit_course(
             self,
             course_list_page: CourseListPage,
@@ -48,6 +62,8 @@ class TestCourses:
             min_score='2'
         )
 
+    @allure.title('Check displaying of empty course list')
+    @allure.severity(Severity.NORMAL)
     def test_empty_courses_list(self, course_list_page: CourseListPage):
         course_list_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses')
 
@@ -56,6 +72,8 @@ class TestCourses:
         course_list_page.toolbar_view.check_visible()
         course_list_page.check_empty_view()
 
+    @allure.title('Create course')
+    @allure.severity(Severity.CRITICAL)
     def test_create_course(self, course_list_page: CourseListPage, create_course_page: CreateCoursePage):
         create_course_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create')
         create_course_page.create_course_toolbar.check_visible(is_create_course_disabled=True)
