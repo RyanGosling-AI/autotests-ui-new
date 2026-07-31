@@ -1,9 +1,9 @@
 from Components.base_component import BaseComponent
 from playwright.sync_api import expect, Page
-
 from elements.button import Button
 from elements.input import Input
 from elements.text import Text
+import allure
 
 
 class CreateExerciseFormComponent(BaseComponent):
@@ -15,16 +15,17 @@ class CreateExerciseFormComponent(BaseComponent):
         )
 
         self.subtitle = Text(
-            page,'create-course-exercise-{index}-box-toolbar-subtitle-text', 'Exercise Subtitle'
+            page, 'create-course-exercise-{index}-box-toolbar-subtitle-text', 'Exercise Subtitle'
         )
         self.title_input = Input(page, 'create-course-exercise-form-title-{index}-input', 'Title')
         self.description_input = Input(
-            page,'create-course-exercise-form-description-{index}-input', 'Description'
+            page, 'create-course-exercise-form-description-{index}-input', 'Description'
         )
 
     def click_delete_button(self, index: int):
         self.delete_exercise_button.click(index=index)
 
+    @allure.step('Check visible create course exercise form at index "{index}"')
     def check_visible(self, index: int, title: str, description: str):
         self.subtitle.check_visible(index=index)
         self.subtitle.check_have_text(f'#{index + 1} Exercise', index=index)
@@ -35,6 +36,7 @@ class CreateExerciseFormComponent(BaseComponent):
         self.description_input.check_visible(index=index)
         self.description_input.check_have_text(description, index=index)
 
+    @allure.step('Fill create course exercise form at index "{index}"')
     def fill_create_form(self, index: int, title: str, description: str):
         self.title_input.fill(title, index=index)
         self.title_input.check_have_value(title, index=index)
