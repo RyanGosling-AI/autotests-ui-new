@@ -7,6 +7,8 @@ from tools.allure.features import AllureFeature
 from pages.courses.create_course_page import CreateCoursePage
 from pages.courses.courses_list_page import CourseListPage
 from allure_commons.types import Severity
+from tools.routes import AppRoute
+from config import settings
 
 
 @pytest.mark.courses
@@ -25,7 +27,7 @@ class TestCourses:
             course_list_page: CourseListPage,
             create_course_page: CreateCoursePage,
     ):
-        create_course_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create')
+        create_course_page.visit(AppRoute.COURSES_CREATE)
         create_course_page.create_course_description.fill_create_course_form(
             title='1',
             estimated_time='1',
@@ -33,7 +35,7 @@ class TestCourses:
             max_score='1',
             min_score='1'
         )
-        create_course_page.image_upload_widget.upload_preview_image('./testdata/files/image.png')
+        create_course_page.image_upload_widget.upload_preview_image(settings.test_data.image_png_file)
         create_course_page.create_course_toolbar.click_create_course_button()
 
         course_list_page.course_view.check_visible(
@@ -65,9 +67,9 @@ class TestCourses:
     @allure.title('Check displaying of empty course list')
     @allure.severity(Severity.NORMAL)
     def test_empty_courses_list(self, course_list_page: CourseListPage):
-        course_list_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses')
+        course_list_page.visit(AppRoute.COURSES)
 
-        course_list_page.navbar.check_visible(username='username')
+        course_list_page.navbar.check_visible(username=settings.test_user.username)
         course_list_page.sidebar.check_visible()
         course_list_page.toolbar_view.check_visible()
         course_list_page.check_empty_view()
@@ -75,7 +77,7 @@ class TestCourses:
     @allure.title('Create course')
     @allure.severity(Severity.CRITICAL)
     def test_create_course(self, course_list_page: CourseListPage, create_course_page: CreateCoursePage):
-        create_course_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create')
+        create_course_page.visit(AppRoute.COURSES_CREATE)
         create_course_page.create_course_toolbar.check_visible(is_create_course_disabled=True)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=False)
         create_course_page.create_course_description.check_visible_create_course_form(
@@ -86,7 +88,7 @@ class TestCourses:
             min_score="0"
         )
         create_course_page.check_visible_exercises_empty_view()
-        create_course_page.image_upload_widget.upload_preview_image('./testdata/files/image.png')
+        create_course_page.image_upload_widget.upload_preview_image(settings.test_data.image_png_file)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=True)
         create_course_page.create_course_description.fill_create_course_form(
             title="Playwright",
