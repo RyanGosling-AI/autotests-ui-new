@@ -60,6 +60,4 @@ class Settings(BaseSettings):
         )
 
 
-
-
 settings = Settings.initialize()
