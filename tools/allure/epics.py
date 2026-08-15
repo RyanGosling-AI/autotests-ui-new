@@ -1,7 +1,0 @@
-from enum import Enum
-
-
-class AllureEpics(str, Enum):
-    LMS = "LMS system"
-    STUDENT = "Student system"
-    ADMINISTRATION = "Administration system"
