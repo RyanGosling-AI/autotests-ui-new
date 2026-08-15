@@ -15,12 +15,12 @@ jobs:
     steps:
 
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
@@ -30,27 +30,26 @@ jobs:
 
       - name: Run Playwright tests with pytest and generate Allure results
         run: |
-          pytest -m regression --alluredir=allure-results --numprocesses 2
+          pytest -m regression --alluredir=./allure-results --numprocesses 2
 
       - name: Get Allure history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         if: always()
         continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Generates Allure Report with history
-        uses: simple-elf/allure-report-action@v1.11
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@v1.15
         if: always()
         with:
           allure_results: allure-results
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
