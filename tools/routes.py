@@ -5,4 +5,4 @@ class AppRoute(str, Enum):
     REGISTRATION = "./#/auth/registration"
     DASHBOARD = "./#/dashboard"
     COURSES = "./#/courses"
-    COURSES_CREATE = "./#/courses/create  "
+    COURSES_CREATE = "./#/courses/create"
